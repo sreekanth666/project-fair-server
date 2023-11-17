@@ -3,6 +3,7 @@ const router = new express.Router();
 const userController = require('../Controllers/userController');
 const projectController = require('../Controllers/projectController');
 const jwtMiddleware = require('../Middlewares/jwtMiddleware');
+const multerConfig = require('../Middlewares/MulterMiddleware');
 
 // Register API
 router.post('/user/register', userController.register);
@@ -11,6 +12,6 @@ router.post('/user/register', userController.register);
 router.post('/user/login', userController.login);
 
 // Add project
-router.post('/project/add', jwtMiddleware, projectController.addProject)
+router.post('/project/add', jwtMiddleware, multerConfig.single('projectImage'), projectController.addProject)
 
 module.exports = router;
