@@ -9,7 +9,6 @@ const storage = multer.diskStorage({
         callback(null, filename)
     }
 })
-
 const fileFilter = (req, file, callback) => {
     if (file.mimetype === 'image/png' || 'image/jpeg' || 'image/jpg') {
         callback(null, true)        
@@ -23,5 +22,6 @@ const multerConfig = multer({
     storage,
     fileFilter
 })
+
 
 module.exports = multerConfig
