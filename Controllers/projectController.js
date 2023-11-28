@@ -64,3 +64,30 @@ exports.getHomeProject = async (req, res) => {
         res.status(401).json(err)
     }
 }
+
+exports.editProjectController = async (req, res) => {
+    const {id} = req.params
+    const userId = req.payload
+    const {title, languages, overview, github, website, projectImage} = req.body
+    const uploadProjectImage = req.file?req.file.filename:projectImage
+
+    try {
+        const updateProject = await projects.findByIdAndUpdate({_id:id}, {
+            title, languages, overview, github, website, projectImage:uploadProjectImage, userId
+        }, {new: true})
+        await updateProject.save()
+        res.status(200).json(updateProject)
+    } catch (error) {
+        res.status(401).json(error)
+    }
+}
+
+exports.deleteProjectController = async(req, res) => {
+    const {id} = req.params
+    try {
+        const removeProject = await projects.findByIdAndDelete({_id: id})
+        res.status(200).json(removeProject)
+    } catch (error) {
+        res.status(401).json(`Error: ${error}`)
+    }
+}
